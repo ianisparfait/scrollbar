@@ -69,6 +69,8 @@ class Scrollbar {
         };
 
         this.updateScrollbar();
+        this.element.addEventListener("mouseenter", () => this.styleActivity({ opacity: this.opacityBasic }));
+        this.element.addEventListener("mouseleave", () => this.styleActivity({ opacity: this.opacityTarget }));
     }
 
     private handleScroll(): void {
