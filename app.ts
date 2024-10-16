@@ -30,6 +30,10 @@ class Scrollbar {
     private readonly opacityTarget = 0.2;
     private style: ScrollBarStyle = { opacity: this.opacityTarget };
 
+    private isDragging: boolean = false;
+    private startY: number = 0;
+    private startScrollTop: number = 0;
+
     constructor(parameters: ScrollbarParam) {
         this.element = document.querySelector(parameters.container) as HTMLElement;
         this.indicator = document.querySelector(parameters.indicator) as HTMLElement;
@@ -48,6 +52,10 @@ class Scrollbar {
 
         window.addEventListener("scroll", () => this.handleScroll());
         window.addEventListener("resize", () => this.defineStyle());
+
+        this.indicator.addEventListener("mousedown", (e) => this.startDrag(e));
+        window.addEventListener("mousemove", (e) => this.onDrag(e));
+        window.addEventListener("mouseup", () => this.stopDrag());
     }
 
     private Colors(): void {
@@ -103,6 +111,28 @@ class Scrollbar {
         this.element.style.opacity = `${this.style.opacity}`;
         this.element.style.height = this.style.height ? this.style.height : "";
         this.element.style.top = this.style.top ? this.style.top : "";
+    }
+
+    private startDrag(e: MouseEvent): void {
+        this.isDragging = true;
+        this.startY = e.clientY;
+        this.startScrollTop = window.scrollY || document.documentElement.scrollTop;
+        document.body.style.userSelect = "none";
+    }
+
+    private onDrag(e: MouseEvent): void {
+        if (!this.isDragging) return;
+
+        const deltaY = e.clientY - this.startY;
+        const scrollPercent = deltaY / this.element.clientHeight;
+
+        const totalHeight = this.parent.scrollHeight - window.innerHeight;
+        window.scrollTo(0, this.startScrollTop + scrollPercent * totalHeight);
+    }
+
+    private stopDrag(): void {
+        this.isDragging = false;
+        document.body.style.userSelect = "";
     }
 
     private parentHeight(): number {
