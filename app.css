@@ -1,0 +1,26 @@
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    background-color: palegoldenrod;
+}
+
+.scrollbar {
+    z-index: 999999999;
+    width: 5px;
+    background: red;
+    position: fixed;
+    right: 5rem;
+    border-radius: 1000px;
+    transition: opacity 0.2s;
+    opacity: 0.2;
+
+    height: 150px;
+    top: 0;
+}
+
+.scrollbar-indicator {
+    border-radius: 1000px;
+    background: green;
+    width: 100%;
+}
