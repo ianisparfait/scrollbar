@@ -5,6 +5,7 @@
  * @property {string} indicator - CSS selector for the scrollbar indicator element.
  * @property {string} parent - CSS selector for the parent element that contains the scrollable content.
  * @property {number} percentage - Percentage of the scrollbar height relative to the container.
+ * @property {string} right - Right position of the scrollbar element.
  * @property {string} [containerColor] - Optional background color for the scrollbar container.
  * @property {string} [indicatorColor] - Optional background color for the scrollbar indicator.
  * @property {number} [velocity=1] - Optional velocity multiplier for scroll speed.
@@ -14,6 +15,7 @@ type ScrollbarParam = {
     indicator: string;
     parent: string;
     percentage: number;
+    right?: string;
     containerColor?: string;
     indicatorColor?: string;
     velocity?: number;
@@ -30,6 +32,7 @@ type ScrollBarStyle = {
     opacity: number;
     height?: string;
     top?: string;
+    right?: string;
 };
 
 /**
@@ -54,6 +57,7 @@ class Scrollbar {
     // Global scrollbar style
     private readonly opacityBasic = 1;
     private readonly opacityTarget = 0.2;
+    private right?: string;
     private style: ScrollBarStyle = { opacity: this.opacityTarget };
 
     // Drag events & parameters
@@ -76,6 +80,7 @@ class Scrollbar {
         this.indicatorColor = parameters.indicatorColor;
 
         this.velocity = parameters.velocity ?? 1;
+        this.right = parameters.right;
     }
 
     /**
@@ -120,6 +125,7 @@ class Scrollbar {
             height: `${elementHeight}px`,
             top: `${(baseCalcul - elementHeight) / 2}px`,
         };
+        if (this.right) this.style.right = `${this.right}`;
 
         this.updateScrollbar();
         this.element.addEventListener("mouseenter", () => this.styleActivity({ opacity: this.opacityBasic }));
@@ -169,6 +175,7 @@ class Scrollbar {
         this.element.style.opacity = `${this.style.opacity}`;
         this.element.style.height = this.style.height ? this.style.height : "";
         this.element.style.top = this.style.top ? this.style.top : "";
+        if (this.style.right) this.element.style.right = `${this.style.right}`;
     }
 
     /**
