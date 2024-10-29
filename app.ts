@@ -43,18 +43,23 @@ class Scrollbar {
   private readonly parent: HTMLElement;
 
   // Parameters that can be defined at class creation
+  /* Height taken from the container */
   public readonly percentage: number;
+  /* Drag speed */
   public readonly velocity: number;
+  /* css Colors can be defined */
   private readonly containerColor?: string | null;
   private readonly indicatorColor?: string | null;
 
   // Others parameters
   private scrollTimeout: number | null = null;
+  /* Time in sec for the setTimeout */
   private readonly timeTriggerScroll = 2;
 
   // Global scrollbar style
   private readonly opacityBasic = 1;
   private readonly opacityTarget = 0.2;
+  /* Position from the right side of parent */
   private right?: string;
   private style: ScrollBarStyle = { opacity: this.opacityTarget };
 
